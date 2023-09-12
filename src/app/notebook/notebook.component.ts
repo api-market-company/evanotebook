@@ -89,31 +89,6 @@ export class NotebookComponent implements OnInit {
           class: await import("@editorjs/checklist").then(x => x.default),
           inlineToolbar: true,
         },
-        Color: {
-          // @ts-ignore
-          class: await import("editorjs-text-color-plugin").then(x => x.default),
-          config: {
-            colorCollections: ['#EC7878','#9C27B0','#673AB7','#3F51B5','#0070FF','#03A9F4','#00BCD4','#4CAF50','#8BC34A','#CDDC39', '#FFF'],
-            defaultColor: '#FF1300',
-            type: 'text',
-            customPicker: true
-          }
-        },
-        attaches: {
-          // @ts-ignore
-          class: await import("@editorjs/attaches").then(x => x.default),
-          config: {
-            uploader: {
-             uploadByFile: this.uploadByFile.bind(this),
-           }
-         }
-        },
-        mathlive: {
-          class: await import("./cellTypes/MathBlock").then(x => x.MathBlock),
-          inlineToolbar: true,
-        },
-        // @ts-ignore
-        Strikethrough: await import("@sotaproject/strikethrough").then(x => x.default),
         // @ts-ignore
         embed: {
           // @ts-ignore
@@ -175,10 +150,6 @@ export class NotebookComponent implements OnInit {
         () => {
           customElements.define('nk-form', createCustomElement(FormComponent, {injector: this.injector}));
           customElements.define('nk-table', createCustomElement(TableComponent, {injector: this.injector}));
-          customElements.define('nk-tree', createCustomElement(TreeComponent, {injector: this.injector}));
-          customElements.define('nk-toolbar', createCustomElement(MatToolbar, {injector: this.injector}));
-          customElements.define('nk-button', createCustomElement(MatButton, {injector: this.injector}));
-          customElements.define('nk-menu', createCustomElement(MatMenu, {injector: this.injector}));
         }
     ));
     if (!this.isMode2) {
