@@ -13,10 +13,9 @@ const pyodide = new Observable<{
   loadPyodide().then(async (instance) => {
     await instance.loadPackage("micropip");
     const micropip = instance.pyimport("micropip");
-    await micropip.install("pandas");
-    await micropip.install("numpy");
-    await micropip.install("scikit-learn");
-    await micropip.install("matplotlib");
+    await micropip.install("requests");
+    await micropip.install("pyodide-http");
+    await micropip.install("apimarket");
     // @ts-ignore
     globalThis.pyodide = instance;
     subscriber.next(instance);
@@ -42,13 +41,13 @@ export class Python extends Language {
         }
       });
       const code = `BLOCK_ID = "${this.editorJsTool?.block?.id}"
-from js import document
-def create_root_element(self):
-    return document.getElementById(BLOCK_ID).children[1]
-def display(f):
-    f.canvas.create_root_element = create_root_element.__get__(create_root_element, f.canvas.__class__)
-    f.canvas.show()
-    return "<div></div>"
+import pyodide_http
+import requests
+
+# Patch the Requests library so it works with Pyscript
+pyodide_http.patch_all()
+
+"
 ${this.mostRecentCode}`;
       instance.runPythonAsync(code).then((output: string) => {
         this.write(output);
